@@ -19,7 +19,7 @@ access_token_key = creds.apikeys['access_key']
 access_token_secret = creds.apikeys['access_secret']
 
 debug = False
-WAIT = 30
+WAIT = 3
 
 def countdown(t):
     while t > 0:
@@ -27,6 +27,24 @@ def countdown(t):
         t -= 1
         sys.stdout.flush()
         time.sleep(1)
+
+def load(api):
+    with open("banlist.csv") as file:
+        count = 0
+        skiplike = False
+        for row in csv.reader(file):
+          user_name = str(row[0])
+          cursorp = "-1"
+          try:
+            USERS=api.GetFollowersPaged(screen_name=user_name,cursor=cursorp,count=200)
+            for user in USERS:
+              try:
+                print user
+              except twitter.TwitterError, err:
+                print "Exception: %s\n" % err.message
+          except twitter.TwitterError, err:
+            print "Exception: %s\n" % err.message
+
 
 def delete(api):
     with open("like2.js") as file:
@@ -84,7 +102,8 @@ def main():
                       access_token_secret,
                       sleep_on_rate_limit=True)
 
-    delete(api)
+    load(api)
+    #delete(api)
 
 if __name__ == "__main__":
     main()
