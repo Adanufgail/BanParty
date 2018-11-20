@@ -9,7 +9,7 @@ import twitter
 from dateutil.parser import parse
 import creds
 
-__author__ = "Koen Rouwhorst"
+__author__ = "Michael Lubert"
 __version__ = "0.1"
 
 import creds
