@@ -42,19 +42,38 @@ def sorter(l):
   return list(uniq(sorted(l)))
 
 def count(api):
-  LENGTH=0
-  cursorn=-1
+  IDLIST=[]
+  cursorn = "-1"
   try:
     while cursorn != 0: 
       USERS=api.GetBlocksIDsPaged(cursor=cursorn)
-      print "LENGTH: "+str(len(USERS[2]))+"\n"
-      print "CURRENT TOTAL: "+str(LENGTH)+"\n"
-      LENGTH=LENGTH+len(USERS[2])
       cursorn=int(USERS[0])
+      for user in USERS[2]:
+        try:
+          if debug == True:
+            print str(user)
+          IDLIST.append(str(user))
+        except twitter.TwitterError, err:
+          print "Exception: %s\n" % err.message
       countdown(WAIT)
   except twitter.TwitterError, err:
     print "Exception: %s\n" % err.message
-  print "TOTAL LENGTH: "+str(LENGTH)+"\n"    
+  if debug == True:
+      print "\nFinished loading all user IDs. Sorting them.\n"
+  IDSET = sorter(IDLIST)
+  if debug == True:
+    print "\nSorting Complete. Opening allbanids.csv for writing.\n"
+
+  with open("allbanids.csv","w") as ids:
+    if debug == True:
+      print "\nFile open.\n"
+    for X in IDSET:
+      ids.write(str(X)+"\n")
+      if debug == True:
+        print(str(X))
+  if debug == True:
+    print "\writing complete.\n"
+      
 
 def error(msg, exit_code=1):
     sys.stderr.write("Error: %s\n" % msg)
