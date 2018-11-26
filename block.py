@@ -9,6 +9,7 @@ import twitter
 from dateutil.parser import parse
 import creds
 from collections import OrderedDict
+from random import shuffle
 
 __author__ = "Michael Lubert"
 __version__ = "0.1"
@@ -39,7 +40,7 @@ def uniq(list):
     last = item
 
 def sorter(l):
-  return list(uniq(sorted(l)))
+  return shuffle(list(uniq(sorted(l))))
 
 def load(api):
     IDLIST=[]
@@ -71,8 +72,8 @@ def block(api):
                    print "Blocking user"
                  api.CreateBlock(user_id=user_id,include_entities=False,skip_status=True)
                  countdown(WAIT)
-                 print count
                  count += 1
+                 print count
                  countdown(WAIT)
 
             except twitter.TwitterError, err:
@@ -81,8 +82,8 @@ def block(api):
                  try:
                    countdown(WAIT)
                    api.CreateBlock(user_id=user_id,include_entities=False,skip_status=True)
-                   print count
                    count += 1
+                   print count
                  except twitter.TwitterError, err:
                     print "Exception: %s\n" % err.message
 
