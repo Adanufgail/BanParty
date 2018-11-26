@@ -1,16 +1,13 @@
 # BanParty
+In the wake of BlockTogether not supporting accounts with more than 200K Blocks, and with the Twitter Blockchain app crashing out after 3-10K blocks from a user, it was necessary for me to craft my own tool to block large scale users on Twitter. It's become obvious that Twitter will never have improved controls for moderation, nor will they ever take threats, dangerous rhetoric, and the spread of blatant propaganda seriously.
 
 This program is a further modification of melissa mcewen's modification of Quincy Larson's tweet deletion Python script. This is a Python 2 script that imports a file named banlist.csv that contains one Twitter ID per line and nothing else. 
 
-It should be noted that I've found conflicting information about Twitter's rate limiting, as some say the 15 per 15 minutes holds true, others say it could be more. I took the cautious approach and did the following workflow:
+load.py loads the list of Twitter handles from banlist.csv and compiles a list of their IDs and the IDs of all of their followers in banids.csv.
 
-1. Get list of users followers and dump them to banids.csv
-2. Wait 30 seconds then repeat for each user in banlist.csv
-3. Remove duplicates
-4. Block and file a spam report on every one, waiting 30 seconds between each.
-5. If there's an error, try to again once, then move on.
+block.py goes through banids.csv and bans every single one. With the Twitter Python API's wait command, if you go over the rate limit, it just pauses the script, so the wait functions aren't necessary.
 
-This, in an ideal environment, has the potential to block 1440 people per day. It's SLOW. On purpose.
+count.py dumps a list of all currently blocked IDs to allbanids.csv. Mine (@mlubert) is currently there as an example, with nearly 1 million blocks of GG supporters, Trump Supporters, Known Bots and Harassers, and people critical of MeToo, The Russia Probe, Supporters of Kavanaugh, all businesses known ot advertise on Twitter, etc. If you want to remove scum, it's a good start. It's likely there are bad blocks in there that should be removed, but it will not be edited except to add entries. You are free to create your own curated lists.
 
 
 Sources:

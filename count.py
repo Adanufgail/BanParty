@@ -20,7 +20,7 @@ access_token_key = creds.apikeys['access_key']
 access_token_secret = creds.apikeys['access_secret']
 
 debug = True
-WAIT=120
+WAIT=1
 
 def countdown(t):
     while t > 0:
