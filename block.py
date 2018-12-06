@@ -24,14 +24,6 @@ debug = True
 WAIT=0
 IDLIST=[]
 
-def countdown(t):
-    while t > 0:
-        sys.stdout.write('\r{}     '.format(t))
-        t -= 1
-        sys.stdout.flush()
-        time.sleep(1)
-    sys.stdout.write('\r{}     ')
-
 def uniq(list):
   last = object()
   for item in list:
@@ -54,7 +46,37 @@ def block(api):
         print "read.\n"
     if debug == True:
       print "\nFinished loading all user IDs. Sorting them.\n"
+      print "\n"+str(len(IDLIST))+" USERS\n"
     IDSET=sorter(IDLIST)
+    #subtract friends
+    if debug == True:
+      print "\n"+str(len(IDSET))+" after cleanup\n"
+      print "\nDone. Loading Your Followers.\n"
+    cursorn = -1
+    try:
+      while cursorn != 0:
+        if debug == True:
+          print "\n IN TRY\n"
+        #FRIENDS=api.GetFollowerIDsPaged(cursor=cursorn)
+        FRIENDS=api.GetFriendsPaged(cursor=cursorn)
+        if debug == True:
+          print "\n API DONE\n"
+        cursorn=int(FRIENDS[0])
+        if debug == True:
+          print "\n next cursor "+str(cursorn)+"\n"
+          print "\n prev cursor "+str(FRIENDS[1])+"\n"
+        for user in FRIENDS[2]:
+          if debug == True:
+            print "\n "+str(user.id)+"\n"
+          try:
+            IDSET.remove(str(user.id))
+          except:
+            print "\n"+str(user.id)+" is not in blocklist\n"
+    except twitter.TwitterError, err:
+      print "Exception: %s\n" % err.message
+    # shuffle list
+    if debug == True:
+      print "\n"+str(len(IDSET))+" after removing people you follow\n"
     shuffle(IDSET)
     count = 0
     for row in IDSET:
@@ -64,16 +86,13 @@ def block(api):
           print user_id
         print "Blocking user"
         api.CreateBlock(user_id=user_id,include_entities=False,skip_status=True)
-        countdown(WAIT)
         count += 1
         print count
-        countdown(WAIT)
 
       except twitter.TwitterError, err:
         print "Exception: %s\n" % err.message
         print "Attempting to block"
         try:
-          countdown(WAIT)
           api.CreateBlock(user_id=user_id,include_entities=False,skip_status=True)
           count += 1
           print count
@@ -88,9 +107,6 @@ def error(msg, exit_code=1):
 
 def main():
 
-    print "Sleeping %i to be safe" % WAIT
-    countdown(WAIT)
-    
 
     api = twitter.Api(consumer_key,
                       consumer_secret,
