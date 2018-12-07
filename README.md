@@ -5,7 +5,7 @@ This program is a further modification of melissa mcewen's modification of Quinc
 
 load.py loads the list of Twitter handles from banlist.csv and compiles a list of their IDs and the IDs of all of their followers in banids.csv.
 
-block.py goes through banids.csv and bans every single one. With the Twitter Python API's wait command, if you go over the rate limit, it just pauses the script, so the wait functions aren't necessary.
+block.py goes through banids.csv and bans every single one. With the Twitter Python API's wait command, if you go over the rate limit, it just pauses the script, so the wait functions aren't necessary. It also loads all usernames from safe.csv and prevents them from being blocked.
 
 count.py dumps a list of all currently blocked IDs to allbanids.csv. Mine (@mlubert) is currently there as an example, with nearly 1 million blocks of GG supporters, Trump Supporters, Known Bots and Harassers, and people critical of MeToo, The Russia Probe, Supporters of Kavanaugh, all businesses known to advertise on Twitter, etc. If you want to remove scum, it's a good start. It's likely there are bad blocks in there that should be removed, but it will not be edited except to add entries. You are free to create your own curated lists. If you're on the list and you're wondering why, examine who you follow.
 
