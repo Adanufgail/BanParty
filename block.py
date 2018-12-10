@@ -59,7 +59,10 @@ def block(api):
           safeuser=api.GetUser(screen_name=row[0])
           if debug == True:
             print "\n"+str(safeuser.id)+"\n"
-          IDSET.remove(str(safeuser.id))
+          try:
+            IDSET.remove(str(safeuser.id))
+          except:
+            print ""
         except twitter.TwitterError, err:
           print "Exception: %s\n" % err.message
           
