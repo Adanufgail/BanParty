@@ -124,15 +124,15 @@ def error(msg, exit_code=1):
     exit(exit_code)
 
 def main():
-
-
-    api = twitter.Api(consumer_key,
-                      consumer_secret,
-                      access_token_key,
-                      access_token_secret,
-                      sleep_on_rate_limit=True)
-
+  api = twitter.Api(consumer_key,
+    consumer_secret,
+    access_token_key,
+    access_token_secret,
+    sleep_on_rate_limit=True)
+  FATAL=0
+  while FATAL < 10:  
     block(api)
+    FATAL += 1
 
 if __name__ == "__main__":
     main()

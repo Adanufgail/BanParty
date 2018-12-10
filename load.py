@@ -22,13 +22,6 @@ access_token_secret = creds.apikeys['access_secret']
 debug = True
 WAIT=0
 
-def countdown(t):
-    while t > 0:
-        sys.stdout.write('\r{}     '.format(t))
-        t -= 1
-        sys.stdout.flush()
-        time.sleep(1)
-    sys.stdout.write('\r{}     ')
 
 def uniq(list):
   last = object()
@@ -49,13 +42,13 @@ def load(api):
       if debug == True:
         print "loaded. loading banids.csv\n"
       with open("banids.csv") as ids:
+        count = 1
         if debug == True:
           print "loaded. reading lines.\n"
         for row in csv.reader(ids):
           IDLIST.append(str(row[0]))
         if debug == True:
           print "read.\n"
-        count = 0
         skiplike = False
         for row in csv.reader(file):
           user_name = str(row[0])
@@ -74,11 +67,11 @@ def load(api):
               for user in USERS[2]:
                 try:
                   if debug == True:
-                    print str(user)
+                    print str(count)+":"+str(user)
                   IDLIST.append(str(user))
+                  count += 1
                 except twitter.TwitterError, err:
                   print "Exception: %s\n" % err.message
-              countdown(WAIT)
           except twitter.TwitterError, err:
             print "Exception: %s\n" % err.message
     if debug == True:
@@ -105,7 +98,6 @@ def error(msg, exit_code=1):
 def main():
 
     print "Sleeping %i to be safe" % WAIT
-    countdown(WAIT)
     
 
     api = twitter.Api(consumer_key,
