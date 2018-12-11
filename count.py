@@ -42,6 +42,7 @@ def sorter(l):
   return list(uniq(sorted(l)))
 
 def count(api):
+  counter = 1
   IDLIST=[]
   cursorn = "-1"
   try:
@@ -51,8 +52,9 @@ def count(api):
       for user in USERS[2]:
         try:
           if debug == True:
-            print str(user)
+            print str(counter)+": "+str(user)
           IDLIST.append(str(user))
+          counter += 1
         except twitter.TwitterError, err:
           print "Exception: %s\n" % err.message
       countdown(WAIT)

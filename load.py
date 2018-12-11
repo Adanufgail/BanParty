@@ -42,38 +42,40 @@ def load(api):
       if debug == True:
         print "loaded. loading banids.csv\n"
       with open("banids.csv") as ids:
-        count = 1
-        if debug == True:
-          print "loaded. reading lines.\n"
-        for row in csv.reader(ids):
-          IDLIST.append(str(row[0]))
-        if debug == True:
-          print "read.\n"
-        skiplike = False
-        for row in csv.reader(file):
-          user_name = str(row[0])
-          print "Finding followers of "+user_name
-          cursorn = "-1"
-          try:
-            while cursorn != 0: 
-              USERS=api.GetFollowerIDsPaged(screen_name=user_name,cursor=cursorn,count=5000)
-              USER_ID=api.GetUser(screen_name=user_name,include_entities=False)
-              IDLIST.append(USER_ID.id)
-              cursorn=int(USERS[0])
-              if debug == True:
-                print USER_ID.id
-                print "NEXT CURSOR: "+str(cursorn)+"\n"
-                print "PREV CURSOR: "+str(USERS[1])+"\n"
-              for user in USERS[2]:
-                try:
-                  if debug == True:
-                    print str(count)+":"+str(user)
-                  IDLIST.append(str(user))
-                  count += 1
-                except twitter.TwitterError, err:
-                  print "Exception: %s\n" % err.message
-          except twitter.TwitterError, err:
-            print "Exception: %s\n" % err.message
+        with open("banids.csv.temp","w") as idst:
+          count = 1
+          if debug == True:
+            print "loaded. reading lines.\n"
+          for row in csv.reader(ids):
+            IDLIST.append(str(row[0]))
+          if debug == True:
+            print "read.\n"
+          skiplike = False
+          for row in csv.reader(file):
+            user_name = str(row[0])
+            print "Finding followers of "+user_name
+            cursorn = "-1"
+            try:
+              while cursorn != 0: 
+                USERS=api.GetFollowerIDsPaged(screen_name=user_name,cursor=cursorn,count=5000)
+                USER_ID=api.GetUser(screen_name=user_name,include_entities=False)
+                IDLIST.append(USER_ID.id)
+                cursorn=int(USERS[0])
+                if debug == True:
+                  print USER_ID.id
+                  print "NEXT CURSOR: "+str(cursorn)+"\n"
+                  print "PREV CURSOR: "+str(USERS[1])+"\n"
+                for user in USERS[2]:
+                  try:
+                    if debug == True:
+                      print str(count)+":"+str(user)
+                    IDLIST.append(str(user))
+                    idst.write(str(user)+"\n")
+                    count += 1
+                  except twitter.TwitterError, err:
+                    print "Exception: %s\n" % err.message
+            except twitter.TwitterError, err:
+              print "Exception: %s\n" % err.message
     if debug == True:
       print "\nFinished loading all user IDs. Sorting them.\n"
     IDSET = sorter(IDLIST)

@@ -131,8 +131,10 @@ def main():
     sleep_on_rate_limit=True)
   FATAL=0
   while FATAL < 10:  
-    block(api)
-    FATAL += 1
+    try:
+      block(api)
+    except:
+      FATAL += 1
 
 if __name__ == "__main__":
     main()
