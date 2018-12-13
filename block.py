@@ -66,6 +66,18 @@ def block(api):
         except:
           print ""
 
+    #remove all users already banned
+    with open("allbanids.csv") as banned:
+      if debug == True:
+        print "\nOpened alreadybanned.csv\n"
+      for row in csv.reader(banned):
+        try:
+          if debug == True:
+            print "\n"+str(row[0])+"\n"
+          IDSET.remove(row)
+        except:
+          print ""
+
     #subtract safe.csv
     with open("safe.csv") as safes:
       if debug == True:

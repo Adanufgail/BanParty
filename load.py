@@ -44,9 +44,15 @@ def load(api):
       for row in csv.reader(file):
         IDTEMP.append(row)
     shuffle(IDTEMP)
+    with open("safe.csv") as file:
+      for row in csv.reader(file):
+        try:
+          ITEMP.remove(row)
+        except:
+          print ""
     with open("banlist.csv","w") as file:
       for row in IDTEMP:
-        file.write(str(row)+"\n")
+        file.write(str(row[0])+"\n")
     with open("banlist.csv") as file:
       if debug == True:
         print "loaded. loading banids.csv\n"
