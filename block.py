@@ -69,7 +69,7 @@ def block(api):
     #remove all users already banned
     with open("allbanids.csv") as banned:
       if debug == True:
-        print "\nOpened alreadybanned.csv\n"
+        print "\nOpened allbanids.csv\n"
       for row in csv.reader(banned):
         try:
           if debug == True:
