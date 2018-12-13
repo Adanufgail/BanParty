@@ -45,8 +45,8 @@ def block(api):
     if debug == True:
         print "read.\n"
     if debug == True:
-      print "\nFinished loading all user IDs. Sorting them.\n"
-      print "\n"+str(len(IDLIST))+" USERS\n"
+      print "Finished loading all user IDs. Sorting them.\n"
+      print ""+str(len(IDLIST))+" USERS\n"
     IDSET=sorter(IDLIST)
 
     #CHECK IF alreadybanned.csv exists
@@ -57,11 +57,13 @@ def block(api):
     #remove all users already banned
     with open("alreadybanned.csv") as banned:
       if debug == True:
-        print "\nOpened alreadybanned.csv\n"
+        print "Opened alreadybanned.csv\n"
+      COUNT=0
       for row in csv.reader(banned):
         try:
+          COUNT += 1
           if debug == True:
-            print "\n"+str(row[0])+"\n"
+            print ""+str(COUNT)+": "+str(row[0])+"\n"
           IDSET.remove(row)
         except:
           print ""
@@ -69,11 +71,11 @@ def block(api):
     #remove all users already banned
     with open("allbanids.csv") as banned:
       if debug == True:
-        print "\nOpened allbanids.csv\n"
+        print "Opened allbanids.csv\n"
       for row in csv.reader(banned):
         try:
           if debug == True:
-            print "\n"+str(row[0])+"\n"
+            print ""+str(row[0])+"\n"
           IDSET.remove(row)
         except:
           print ""
@@ -81,14 +83,14 @@ def block(api):
     #subtract safe.csv
     with open("safe.csv") as safes:
       if debug == True:
-        print "\nOpened safe.csv\n"
+        print "Opened safe.csv\n"
       for row in csv.reader(safes):
         try:
           if debug == True:
-            print "\n"+str(row[0])+"\n"
+            print ""+str(row[0])+"\n"
           safeuser=api.GetUser(screen_name=row[0])
           if debug == True:
-            print "\n"+str(safeuser.id)+"\n"
+            print ""+str(safeuser.id)+"\n"
           try:
             IDSET.remove(str(safeuser.id))
           except:
@@ -98,34 +100,34 @@ def block(api):
           
     #subtract friends
     if debug == True:
-      print "\n"+str(len(IDSET))+" after cleanup\n"
-      print "\nDone. Loading Your Followers.\n"
+      print ""+str(len(IDSET))+" after cleanup\n"
+      print "Done. Loading Your Followers.\n"
     cursorn = -1
     try:
       while cursorn != 0:
         if debug == True:
-          print "\n IN TRY\n"
+          print "IN TRY\n"
         #FRIENDS=api.GetFollowerIDsPaged(cursor=cursorn)
         FRIENDS=api.GetFriendsPaged(cursor=cursorn)
         if debug == True:
-          print "\n API DONE\n"
+          print "API DONE\n"
         cursorn=int(FRIENDS[0])
         if debug == True:
-          print "\n next cursor "+str(cursorn)+"\n"
-          print "\n prev cursor "+str(FRIENDS[1])+"\n"
+          print "next cursor "+str(cursorn)+"\n"
+          print "prev cursor "+str(FRIENDS[1])+"\n"
         for user in FRIENDS[2]:
           if debug == True:
-            print "\n "+str(user.id)+"\n"
+            print ""+str(user.id)+"\n"
           try:
             IDSET.remove(str(user.id))
           except:
-            print "\n"+str(user.id)+" is not in blocklist\n"
+            print ""+str(user.id)+" is not in blocklist\n"
     except twitter.TwitterError, err:
       print "Exception: %s\n" % err.message
 
     # shuffle list
     if debug == True:
-      print "\n"+str(len(IDSET))+" after removing people you follow\n"
+      print ""+str(len(IDSET))+" after removing people you follow\n"
     shuffle(IDSET)
     count = 0
 
