@@ -9,6 +9,7 @@ import twitter
 from dateutil.parser import parse
 import creds
 from collections import OrderedDict
+from random import shuffle
 
 __author__ = "Michael Lubert"
 __version__ = "0.1"
@@ -36,8 +37,16 @@ def sorter(l):
 
 def load(api):
     IDLIST=[]
+    IDTEMP=[]
     if debug == True:
       print "loading banlist.csv\n"
+    with open("banlist.csv") as file:
+      for row in csv.reader(file):
+        IDTEMP.append(row)
+    shuffle(IDTEMP)
+    with open("banlist.csv","w") as file:
+      for row in IDTEMP:
+        file.write(str(row)+"\n")
     with open("banlist.csv") as file:
       if debug == True:
         print "loaded. loading banids.csv\n"
@@ -81,6 +90,7 @@ def load(api):
     IDSET = sorter(IDLIST)
     if debug == True:
       print "\nSorting Complete. Opening banids.csv for writing.\n"
+    shuffle(IDSET)
 
     with open("banids.csv","w") as ids:
       if debug == True:

@@ -48,6 +48,24 @@ def block(api):
       print "\nFinished loading all user IDs. Sorting them.\n"
       print "\n"+str(len(IDLIST))+" USERS\n"
     IDSET=sorter(IDLIST)
+
+    #CHECK IF alreadybanned.csv exists
+    if not os.path.isfile("alreadybanned.csv"):
+      with open("alreadybanned.csv") as makebanned:
+        makebanned.write("")
+
+    #remove all users already banned
+    with open("alreadybanned.csv") as banned:
+      if debug == True:
+        print "\nOpened alreadybanned.csv\n"
+      for row in csv.reader(banned):
+        try:
+          if debug == True:
+            print "\n"+str(row[0])+"\n"
+          IDSET.remove(row)
+        except:
+          print ""
+
     #subtract safe.csv
     with open("safe.csv") as safes:
       if debug == True:
@@ -92,30 +110,36 @@ def block(api):
             print "\n"+str(user.id)+" is not in blocklist\n"
     except twitter.TwitterError, err:
       print "Exception: %s\n" % err.message
+
     # shuffle list
     if debug == True:
       print "\n"+str(len(IDSET))+" after removing people you follow\n"
     shuffle(IDSET)
     count = 0
-    for row in IDSET:
-      user_id = int(row)
-      try:
-        if debug is True:
-          print user_id
-        print "Blocking user"
-        api.CreateBlock(user_id=user_id,include_entities=False,skip_status=True)
-        count += 1
-        print count
 
-      except twitter.TwitterError, err:
-        print "Exception: %s\n" % err.message
-        print "Attempting to block"
+    #DO THE BANNING!
+    with open("alreadybanned.csv","a") as addban:
+      for row in IDSET:
+        user_id = int(row)
         try:
+          if debug is True:
+            print user_id
+          print "Blocking user"
           api.CreateBlock(user_id=user_id,include_entities=False,skip_status=True)
           count += 1
+          addban.write(str(user_id)+"\n")
           print count
+
         except twitter.TwitterError, err:
           print "Exception: %s\n" % err.message
+          print "Attempting to block"
+          try:
+            api.CreateBlock(user_id=user_id,include_entities=False,skip_status=True)
+            count += 1
+            addban.write(str(user_id)+"\n")
+            print count
+          except twitter.TwitterError, err:
+            print "Exception: %s\n" % err.message
 
   print "Number of blocked users: %s\n" % count
 
@@ -130,7 +154,7 @@ def main():
     access_token_secret,
     sleep_on_rate_limit=True)
   FATAL=0
-  while FATAL < 10:  
+  while FATAL < 1:  
     try:
       block(api)
     except:
