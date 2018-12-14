@@ -49,36 +49,6 @@ def block(api):
       print ""+str(len(IDLIST))+" USERS\n"
     IDSET=sorter(IDLIST)
 
-    #CHECK IF alreadybanned.csv exists
-    if not os.path.isfile("alreadybanned.csv"):
-      with open("alreadybanned.csv") as makebanned:
-        makebanned.write("")
-
-    #remove all users already banned
-    with open("alreadybanned.csv") as banned:
-      if debug == True:
-        print "Opened alreadybanned.csv\n"
-      COUNT=0
-      for row in csv.reader(banned):
-        try:
-          COUNT += 1
-          if debug == True:
-            print ""+str(COUNT)+": "+str(row[0])+"\n"
-          IDSET.remove(row)
-        except:
-          print ""
-
-    #remove all users already banned
-    with open("allbanids.csv") as banned:
-      if debug == True:
-        print "Opened allbanids.csv\n"
-      for row in csv.reader(banned):
-        try:
-          if debug == True:
-            print ""+str(row[0])+"\n"
-          IDSET.remove(row)
-        except:
-          print ""
 
     #subtract safe.csv
     with open("safe.csv") as safes:
