@@ -65,6 +65,7 @@ def block(api):
             IDSET.remove(str(safeuser.id))
           except:
             print ""
+          api.DestroyBlock(user_id=safeuser.id,include_entities=False,skip_status=True)
         except twitter.TwitterError, err:
           print "Exception: %s\n" % err.message
           
