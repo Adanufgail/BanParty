@@ -41,7 +41,10 @@ def block(api):
     if debug == True:
       print "loaded. reading lines.\n"
     for row in csv.reader(ids):
-      IDLIST.append(str(row[0]))
+        try:
+            IDLIST.append(str(row[0]))
+        except:
+            print "O"
     if debug == True:
         print "read.\n"
     if debug == True:

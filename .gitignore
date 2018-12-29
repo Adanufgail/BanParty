@@ -4,3 +4,7 @@ culllist.sh
 banlist.csv.BACK
 banids.csv.temp
 *.BACK
+pushcsv.sh
+banids.csv
+allbanids.csv
+alreadybanned.csv

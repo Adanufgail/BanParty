@@ -43,13 +43,13 @@ def load(api):
     with open("banlist.csv") as file:
       for row in csv.reader(file):
         IDTEMP.append(row)
-    shuffle(IDTEMP)
     with open("safe.csv") as file:
       for row in csv.reader(file):
         try:
           ITEMP.remove(row)
         except:
           print ""
+    shuffle(IDTEMP)
     with open("banlist.csv","w") as file:
       for row in IDTEMP:
         file.write(str(row[0])+"\n")
@@ -62,7 +62,7 @@ def load(api):
           if debug == True:
             print "loaded. reading lines.\n"
           for row in csv.reader(ids):
-            IDLIST.append(str(row[0]))
+            IDLIST.append(str(row))
           if debug == True:
             print "read.\n"
           skiplike = False
