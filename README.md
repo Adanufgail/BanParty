@@ -12,3 +12,5 @@ block.py: Go through banids.csv and block every single entry. Now includes prote
 culllist.py: This removes every entry from allbanids.csv and alreadyblocked.csv from the banids.csv file, as well as removing dupliactes. It also removes the user ids of any handle in safe.csv (used to prevent blocking accounts you don't follow).
 
 These scripts use a LOT of memory (hundreds of MB or even GB). 
+
+As GitHub has a 100MB file limit, I've put my copies of the CSV files here: https://banparty.circlelinego.com
