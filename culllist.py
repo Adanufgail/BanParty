@@ -33,6 +33,8 @@ def cull():
       makebanned.write("")
   
   IDLIST=[]
+  COUNT=1
+  STATUS=100
   with open("banids.csv") as ids:
 	  for ID in ids:
 		  IDLIST.append(ID)
@@ -44,6 +46,9 @@ def cull():
         sys.stdout.write("O")
       except:
         sys.stdout.write(".")
+      COUNT += 1
+      if COUNT%STATUS == 0:
+        sys.stdout.write(" "+str(COUNT)+"\n")
   print len(IDLIST)
   with open("alreadybanned.csv") as already:
     for ID in already:
@@ -52,6 +57,9 @@ def cull():
         IDLIST.remove(ID)
       except:
         sys.stdout.write(".")
+      COUNT += 1
+      if COUNT%STATUS == 0:
+        sys.stdout.write(" "+str(COUNT)+"\n")
   print len(IDLIST)
   IDSET=sorter(IDLIST)
   print len(IDSET)

@@ -65,6 +65,7 @@ def block(api):
           if debug == True:
             print ""+str(safeuser.id)+"\n"
           try:
+            api.DestroyBlock(user_id=str(safeuser.id),include_entities=False,skip_status=True)
             IDSET.remove(str(safeuser.id))
           except:
             print ""
