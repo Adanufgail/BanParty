@@ -9,6 +9,7 @@ import twitter
 from dateutil.parser import parse
 import creds
 from collections import OrderedDict
+from shutil import copyfile
 
 __author__ = "Michael Lubert"
 __version__ = "0.1"
@@ -45,36 +46,25 @@ def count(api):
   counter = 1
   IDLIST=[]
   cursorn = "-1"
-  try:
-    while cursorn != 0: 
-      USERS=api.GetBlocksIDsPaged(cursor=cursorn)
-      cursorn=int(USERS[0])
-      for user in USERS[2]:
-        try:
-          if debug == True:
-            print str(counter)+": "+str(user)
-          IDLIST.append(str(user))
-          counter += 1
-        except twitter.TwitterError, err:
-          print "Exception: %s\n" % err.message
-      countdown(WAIT)
-  except twitter.TwitterError, err:
-    print "Exception: %s\n" % err.message
-  if debug == True:
-      print "\nFinished loading all user IDs. Sorting them.\n"
-  IDSET = sorter(IDLIST)
-  if debug == True:
-    print "\nSorting Complete. Opening allbanids.csv for writing.\n"
-
-  with open("allbanids.csv","w") as ids:
+  with open("allbanids.csv.tmp","w",0) as ids:
+    try:
+      while cursorn != 0: 
+        USERS=api.GetBlocksIDsPaged(cursor=cursorn)
+        cursorn=int(USERS[0])
+        for user in USERS[2]:
+          try:
+            if debug == True:
+              print str(counter)+": "+str(user)
+            ids.write(str(user)+"\n")
+            counter += 1
+          except twitter.TwitterError, err:
+            print "Exception: %s\n" % err.message
+        countdown(WAIT)
+    except twitter.TwitterError, err:
+      print "Exception: %s\n" % err.message
     if debug == True:
-      print "\nFile open.\n"
-    for X in IDSET:
-      ids.write(str(X)+"\n")
-      if debug == True:
-        print(str(X))
-  if debug == True:
-    print "\writing complete.\n"
+        print "\nFinished loading all user IDs.\n"
+    copyfile("allbanids.csv.tmp","allbanids.csv")
       
 
 def error(msg, exit_code=1):
@@ -83,9 +73,6 @@ def error(msg, exit_code=1):
 
 def main():
 
-    print "Sleeping %i to be safe" % WAIT
-    countdown(WAIT)
-    
 
     api = twitter.Api(consumer_key,
                       consumer_secret,

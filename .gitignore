@@ -8,4 +8,5 @@ pushcsv.sh
 banids.csv
 banids.csv.cull
 allbanids.csv
+allbanids.csv.tmp
 alreadybanned.csv

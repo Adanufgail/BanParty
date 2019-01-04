@@ -60,8 +60,6 @@ def load(api):
         count = 1
         if debug == True:
           print "loaded. reading lines.\n"
-        for row in csv.reader(ids):
-          IDLIST.append(str(row))
         if debug == True:
           print "read.\n"
         skiplike = False
