@@ -33,39 +33,50 @@ def cull():
       makebanned.write("")
   
   IDLIST=[]
+  ALLIDLIST=[]
+  ALRIDLIST=[]
   COUNT=1
   STATUS=100
   with open("banids.csv") as ids:
 	  for ID in ids:
 		  IDLIST.append(ID)
-  print len(IDLIST)
-  with open("allbanids.csv") as allbans:
-    for ID in allbans:
-      try:
-        IDLIST.remove(ID)
-        sys.stdout.write("O")
-      except:
-        sys.stdout.write(".")
-      COUNT += 1
-      if COUNT%STATUS == 0:
-        sys.stdout.write(" "+str(COUNT)+"\n")
-  print len(IDLIST)
-  with open("alreadybanned.csv") as already:
-    for ID in already:
-      try:
-        sys.stdout.write("O")
-        IDLIST.remove(ID)
-      except:
-        sys.stdout.write(".")
-      COUNT += 1
-      if COUNT%STATUS == 0:
-        sys.stdout.write(" "+str(COUNT)+"\n")
-  print len(IDLIST)
-  IDSET=sorter(IDLIST)
-  print len(IDSET)
-  with open("banids.csv","w") as ids:
-    for ID in IDSET:
+  sys.stdout.write(str(len(IDLIST))+"\n")
+  IDLISTSET=set(IDLIST)
+  sys.stdout.write(str(len(IDLISTSET))+"\n")
+  IDLIST=[]
+  sys.stdout.write(str(len(IDLIST))+"\n")
+  with open("allbanids.csv") as ids:
+	  for ID in ids:
+		  ALLIDLIST.append(ID)
+  sys.stdout.write(str(len(ALLIDLIST))+"\n")
+  ALLIDLISTSET=set(ALLIDLIST)
+  sys.stdout.write(str(len(ALLIDLISTSET))+"\n")
+  ALLIDLIST=[]
+  sys.stdout.write(str(len(ALLIDLIST))+"\n")
+  with open("alreadybanned.csv") as ids:
+	  for ID in ids:
+		  ALRIDLIST.append(ID)
+  sys.stdout.write(str(len(ALRIDLIST))+"\n")
+  ALRIDLISTSET=set(ALRIDLIST)
+  sys.stdout.write(str(len(ALRIDLISTSET))+"\n")
+  ALRIDLIST=[]
+  sys.stdout.write(str(len(ALRIDLIST))+"\n")
+
+  DONE=IDLISTSET.difference(ALLIDLISTSET,ALRIDLISTSET)
+  sys.stdout.write(str(len(DONE))+"\n")
+
+  with open("banids.csv.cull","w") as ids:
+    for ID in DONE:
+      #sys.stdout.write(ID+"\n")
       ids.write(ID)
+      
+    
+  #IDSET=sorter(IDLIST)
+  #print len(IDSET)
+
+  #with open("banids.csv","w") as ids:
+    #for ID in IDSET:
+      #ids.write(ID)
 
 def error(msg, exit_code=1):
     sys.stderr.write("Error: %s\n" % msg)

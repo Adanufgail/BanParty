@@ -6,5 +6,6 @@ banids.csv.temp
 *.BACK
 pushcsv.sh
 banids.csv
+banids.csv.cull
 allbanids.csv
 alreadybanned.csv

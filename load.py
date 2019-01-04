@@ -46,9 +46,9 @@ def load(api):
     with open("safe.csv") as file:
       for row in csv.reader(file):
         try:
-          ITEMP.remove(row)
+          IDTEMP.remove(row)
         except:
-          print ""
+          sys.stdout.write("")
     shuffle(IDTEMP)
     with open("banlist.csv","w") as file:
       for row in IDTEMP:
@@ -56,58 +56,39 @@ def load(api):
     with open("banlist.csv") as file:
       if debug == True:
         print "loaded. loading banids.csv\n"
-      with open("banids.csv") as ids:
-        with open("banids.csv.temp","w") as idst:
-          count = 1
-          if debug == True:
-            print "loaded. reading lines.\n"
-          for row in csv.reader(ids):
-            IDLIST.append(str(row))
-          if debug == True:
-            print "read.\n"
-          skiplike = False
-          for row in csv.reader(file):
-            user_name = str(row[0])
-            print "Finding followers of "+user_name
-            cursorn = "-1"
-            try:
-              while cursorn != 0: 
-                USERS=api.GetFollowerIDsPaged(screen_name=user_name,cursor=cursorn,count=5000)
-                USER_ID=api.GetUser(screen_name=user_name,include_entities=False)
-                IDLIST.append(USER_ID.id)
-                cursorn=int(USERS[0])
-                if debug == True:
-                  print USER_ID.id
-                  print "NEXT CURSOR: "+str(cursorn)+"\n"
-                  print "PREV CURSOR: "+str(USERS[1])+"\n"
-                for user in USERS[2]:
-                  try:
-                    if debug == True:
-                      print str(count)+":"+str(user)
-                    IDLIST.append(str(user))
-                    idst.write(str(user)+"\n")
-                    count += 1
-                  except twitter.TwitterError, err:
-                    print "Exception: %s\n" % err.message
-            except twitter.TwitterError, err:
-              print "Exception: %s\n" % err.message
-    if debug == True:
-      print "\nFinished loading all user IDs. Sorting them.\n"
-    IDSET = sorter(IDLIST)
-    if debug == True:
-      print "\nSorting Complete. Opening banids.csv for writing.\n"
-    shuffle(IDSET)
-
-    with open("banids.csv","w") as ids:
-      if debug == True:
-        print "\nFile open.\n"
-      for X in IDSET:
-        ids.write(str(X)+"\n")
+      with open("banids.csv.temp","w") as idst:
+        count = 1
         if debug == True:
-          print(str(X))
-    if debug == True:
-      print "\writing complete.\n"
-      
+          print "loaded. reading lines.\n"
+        for row in csv.reader(ids):
+          IDLIST.append(str(row))
+        if debug == True:
+          print "read.\n"
+        skiplike = False
+        for row in csv.reader(file):
+          user_name = str(row[0])
+          print "Finding followers of "+user_name
+          cursorn = "-1"
+          try:
+            while cursorn != 0: 
+              USERS=api.GetFollowerIDsPaged(screen_name=user_name,cursor=cursorn,count=5000)
+              USER_ID=api.GetUser(screen_name=user_name,include_entities=False)
+              IDLIST.append(USER_ID.id)
+              cursorn=int(USERS[0])
+              if debug == True:
+                print USER_ID.id
+                print "NEXT CURSOR: "+str(cursorn)+"\n"
+                print "PREV CURSOR: "+str(USERS[1])+"\n"
+              for user in USERS[2]:
+                try:
+                  if debug == True:
+                    print str(count)+":"+str(user)
+                  idst.write(str(user)+"\n")
+                  count += 1
+                except twitter.TwitterError, err:
+                  print "Exception: %s\n" % err.message
+          except twitter.TwitterError, err:
+            print "Exception: %s\n" % err.message
 
 def error(msg, exit_code=1):
     sys.stderr.write("Error: %s\n" % msg)
