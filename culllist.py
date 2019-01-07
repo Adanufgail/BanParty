@@ -5,6 +5,7 @@ import time
 import os
 from dateutil.parser import parse
 from collections import OrderedDict
+from shutil import copyfile
 
 def uniq(list):
   last = object()
@@ -40,35 +41,42 @@ def cull():
   with open("banids.csv") as ids:
 	  for ID in ids:
 		  IDLIST.append(ID)
-  sys.stdout.write(str(len(IDLIST))+"\n")
+  sys.stdout.write(str(len(IDLIST))+" BANIDS.CSV RAW\n")
   IDLISTSET=set(IDLIST)
-  sys.stdout.write(str(len(IDLISTSET))+"\n")
+  sys.stdout.write(str(len(IDLISTSET))+" BANIDS.CSV NO DUPES\n")
   IDLIST=[]
-  sys.stdout.write(str(len(IDLIST))+"\n")
+  sys.stdout.write(str(len(IDLIST))+" SHOULD BE 0\n")
   with open("allbanids.csv") as ids:
 	  for ID in ids:
 		  ALLIDLIST.append(ID)
-  sys.stdout.write(str(len(ALLIDLIST))+"\n")
+  sys.stdout.write(str(len(ALLIDLIST))+" ALLBANIDS.CSV RAW\n")
   ALLIDLISTSET=set(ALLIDLIST)
-  sys.stdout.write(str(len(ALLIDLISTSET))+"\n")
+  sys.stdout.write(str(len(ALLIDLISTSET))+" ALLBANIDS.CSV NO DUPES\n")
   ALLIDLIST=[]
-  sys.stdout.write(str(len(ALLIDLIST))+"\n")
+  sys.stdout.write(str(len(ALLIDLIST))+" SHOULD BE 0\n")
   with open("alreadybanned.csv") as ids:
 	  for ID in ids:
 		  ALRIDLIST.append(ID)
-  sys.stdout.write(str(len(ALRIDLIST))+"\n")
+  sys.stdout.write(str(len(ALRIDLIST))+" ALREADYBANNED.CSV RAW\n")
   ALRIDLISTSET=set(ALRIDLIST)
-  sys.stdout.write(str(len(ALRIDLISTSET))+"\n")
+  sys.stdout.write(str(len(ALRIDLISTSET))+" ALREADYBANNED.CSV NO DUPES\n")
   ALRIDLIST=[]
-  sys.stdout.write(str(len(ALRIDLIST))+"\n")
+  sys.stdout.write(str(len(ALRIDLIST))+" SHOULD BE 0\n")
+
+  sys.stdout.write("PERFORMING DIFFERENCE OPTION\n")
 
   DONE=IDLISTSET.difference(ALLIDLISTSET,ALRIDLISTSET)
-  sys.stdout.write(str(len(DONE))+"\n")
+  sys.stdout.write(str(len(DONE))+" AFTER REDUCTION\n")
+  
+  sys.stdout.write("WRITING OUT BANIDS.CSV.CULL\n")
 
   with open("banids.csv.cull","w") as ids:
     for ID in DONE:
       #sys.stdout.write(ID+"\n")
       ids.write(ID)
+  
+  sys.stdout.write("COPYING TO BANIDS.CSV\n")
+  copyfile("banids.csv.cull","banids.csv")
       
     
   #IDSET=sorter(IDLIST)
