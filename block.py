@@ -53,21 +53,6 @@ def block(api):
     IDSET=sorter(IDLIST)
 
 
-    #subtract safe.csv
-    with open("safe.csv") as safes:
-      if debug == True:
-        print "Opened safe.csv\n"
-      for row in csv.reader(safes):
-        try:
-          if debug == True:
-            print ""+str(row[0])+"\n"
-          safeuser=api.GetUser(screen_name=row[0])
-          if debug == True:
-            print ""+str(safeuser.id)+"\n"
-          api.DestroyBlock(user_id=str(safeuser.id),include_entities=False,skip_status=True)
-        except twitter.TwitterError, err:
-          print "Exception: %s\n" % err.message
-          
     #subtract friends
     if debug == True:
       print ""+str(len(IDSET))+" after cleanup\n"
