@@ -21,20 +21,6 @@ access_token_key = creds.apikeys['access_key']
 access_token_secret = creds.apikeys['access_secret']
 
 debug = True
-WAIT=0
-IDLIST=[]
-
-def uniq(list):
-  last = object()
-  for item in list:
-    if item == last:
-      continue
-    yield item
-    last = item
-
-def sorter(l):
-  return list(uniq(sorted(l)))
-
 
 def safe(api):
     #subtract safe.csv
@@ -63,12 +49,7 @@ def main():
     access_token_key,
     access_token_secret,
     sleep_on_rate_limit=True)
-  FATAL=0
-  while FATAL < 1:  
-    try:
-      safe(api)
-    except:
-      FATAL += 1
+  safe(api)
 
 if __name__ == "__main__":
     main()
