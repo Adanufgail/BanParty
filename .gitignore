@@ -1,12 +1,9 @@
 creds.py
 creds.pyc
 culllist.sh
-banlist.csv.BACK
-banids.csv.temp
+*.temp
 *.BACK
 pushcsv.sh
-banids.csv
-banids.csv.cull
-allbanids.csv
-allbanids.csv.tmp
+banids.*
+allbanids*
 alreadybanned.csv
