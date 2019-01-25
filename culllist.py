@@ -37,7 +37,7 @@ def cull():
   ALLIDLIST=[]
   ALRIDLIST=[]
   COUNT=1
-  STATUS=100
+  STATUS=1000
   with open("banids.csv") as ids:
 	  for ID in ids:
 		  IDLIST.append(ID)

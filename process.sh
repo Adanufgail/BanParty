@@ -3,6 +3,6 @@ echo cull ban list
 echo cull safe list
 ./cullsafelist.sh
 echo merge lists
-./mergelists.sh
+./compare.sh
 echo cull banids
 python ./culllist.py

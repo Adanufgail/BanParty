@@ -48,15 +48,11 @@ def block(api):
     if debug == True:
         print "read.\n"
     if debug == True:
-      print "Finished loading all user IDs. Sorting them.\n"
+      print "Finished loading all user IDs.\n"
       print ""+str(len(IDLIST))+" USERS\n"
-    IDSET=sorter(IDLIST)
 
 
     #subtract friends
-    if debug == True:
-      print ""+str(len(IDSET))+" after cleanup\n"
-      print "Done. Loading Your Followers.\n"
     cursorn = -1
     try:
       while cursorn != 0:
@@ -74,7 +70,7 @@ def block(api):
           if debug == True:
             print ""+str(user.id)+"\n"
           try:
-            IDSET.remove(str(user.id))
+            IDLIST.remove(str(user.id))
           except:
             print ""+str(user.id)+" is not in blocklist\n"
     except twitter.TwitterError, err:
@@ -82,7 +78,10 @@ def block(api):
 
     # shuffle list
     if debug == True:
-      print ""+str(len(IDSET))+" after removing people you follow\n"
+      print ""+str(len(IDLIST))+" after removing people you follow\n Sorting list\n"
+    IDSET=sorter(IDLIST)
+    if debug == True:
+      print ""+str(len(IDLIST))+" after sorting \n"
     shuffle(IDSET)
     count = 0
 
