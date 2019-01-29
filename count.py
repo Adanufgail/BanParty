@@ -44,7 +44,6 @@ def sorter(l):
 
 def count(api):
   counter = 1
-  IDLIST=[]
   cursorn = "-1"
   with open("allbanids.csv.tmp","w",0) as ids:
     try:
