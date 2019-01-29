@@ -24,4 +24,3 @@ do
   cat $X >> banids.csv
   rm $X
 done
-
