@@ -7,3 +7,4 @@ pushcsv.sh
 banids.*
 allbanids*
 alreadybanned.csv
+upload.sh
