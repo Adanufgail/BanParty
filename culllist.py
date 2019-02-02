@@ -52,8 +52,8 @@ def cull():
   DONE=[]
   COUNTI=0        # Current Count of IDs from BANIDS
   COUNTA=0        # Current Count of IDs from OTHER FILES
-  LINES=1000000    # MAX number of IDs to process at once
-  PERCENTTICK = 100000
+  LINES=10000    # MAX number of IDs to process at once
+  PERCENTTICK = 1000
   LINES = LINES - 1
   TOTALDUPE=0
   TOTALCOUNT=0
@@ -77,6 +77,7 @@ def cull():
       	  for IDA in ida:
             COUNTA += 1
             ALLIDLIST.append(IDA)
+            time.sleep(0.5)
             if COUNTA%PERCENTTICK == 0:
               sys.stdout.write("Y")
             if COUNTA > LINES:
@@ -101,6 +102,7 @@ def cull():
       	  for IDA in ida:
             COUNTA += 1
             ALLIDLIST.append(IDA)
+            time.sleep(0.5)
             if COUNTA%PERCENTTICK == 0:
               sys.stdout.write("Z")
             if COUNTA > LINES:
@@ -127,7 +129,7 @@ def cull():
   sys.stdout.write("TOTAL DUPES: "+str(TOTALDUPE)+"\n")
   sys.stdout.write("TOTAL COUNT: "+str(TOTALCOUNT)+"\n")
   sys.stdout.write("COPYING TO BANIDS.CSV\n")
-#  copyfile("banids.csv.cull","banids.csv")
+  copyfile("banids.csv.cull","banids.csv")
       
     
   #IDSET=sorter(IDLIST)
