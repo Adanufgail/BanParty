@@ -64,7 +64,7 @@ def block(api):
               cursorn=int(FRIENDS[0])
               for user in FRIENDS[2]:
                 if debug == True:
-                  print ""+str(user.id)+""
+                  print "%-15%" % str(user.id)
                 try:
                   IDLIST.remove(str(user.id))
                 except:
@@ -99,12 +99,12 @@ def banem(IDSET, api,BATCHCOUNT):
         user_id = int(row)
         try:
           if debug is True:
-            sys.stdout.write(str(user_id))
+            sys.stdout.write("%-20s" % str(user_id))
           sys.stdout.write(' blocking user.')
           api.CreateBlock(user_id=user_id,include_entities=False,skip_status=True)
           count += 1
           addban.write(str(user_id)+"\n")
-          sys.stdout.write(' total: '+str(count)+"\n")
+          sys.stdout.write(' total: '+"%-20s" % str(count)+"\n")
           
 
         except twitter.TwitterError, err:

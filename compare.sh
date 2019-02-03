@@ -1,6 +1,9 @@
+echo "combining banids.csv and banids.csv.temp"
 cat banids.csv banids.csv.temp > banidscombined.csv
+echo "making backup of banids.csv"
 mv banids.csv banids.$(date +%Y-%m-%d.%H-%M).csv
-split --verbose -d -l 10000000 banidscombined.csv banids
+echo "splitting files"
+split --verbose -d -l 1000000 banidscombined.csv banids
 rm banidscombined.csv
 for X in $(ls banids[0-9]*)
 do
