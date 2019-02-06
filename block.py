@@ -64,7 +64,7 @@ def block(api):
               cursorn=int(FRIENDS[0])
               for user in FRIENDS[2]:
                 if debug == True:
-                  print "%-15%" % str(user.id)
+                  print "%-15s" % str(user.id)
                 try:
                   IDLIST.remove(str(user.id))
                 except:
