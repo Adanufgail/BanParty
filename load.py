@@ -49,11 +49,7 @@ def load(api):
           IDTEMP.remove(row)
         except:
           sys.stdout.write("")
-    shuffle(IDTEMP)
-    with open("banlist.csv","w") as file:
-      for row in IDTEMP:
-        file.write(str(row[0])+"\n")
-    with open("banlist.csv") as file:
+      shuffle(IDTEMP)
       if debug == True:
         print "loaded. loading banids.csv\n"
       with open("banids.csv.temp","w") as idst:
@@ -63,7 +59,7 @@ def load(api):
         if debug == True:
           print "read.\n"
         skiplike = False
-        for row in csv.reader(file):
+        for row in IDTEMP:
           user_name = str(row[0])
           print "Finding followers of "+user_name
           cursorn = "-1"
