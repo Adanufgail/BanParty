@@ -17,8 +17,10 @@ do
     else
       echo sorting and uniq $X and $Y
       cat $X $Y | sort | uniq > $X.new
+      sleep 2
       echo removing $Y from combo
       cat $X $X.new | sort | uniq -d > $X.new2
+      sleep 2
       echo cleanup
       mv $X.new2 $X
       rm $X.new
