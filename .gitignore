@@ -9,3 +9,4 @@ allbanids*
 alreadybanned.csv
 upload.sh
 *.gz
+tempfile*
