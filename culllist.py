@@ -113,6 +113,7 @@ def cull():
               TOTALCOUNT += cullout(DONE,TOTALCOUNT) 
               COUNTA=0
           ALLIDLISTSET=set(ALLIDLIST)
+          ALLIDLIST=[]
           DONE=IDLISTSET.difference(ALLIDLISTSET)
           DIFF=len(IDLISTSET)-len(DONE)
           IDLISTSET=DONE
