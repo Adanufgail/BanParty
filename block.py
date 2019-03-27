@@ -71,7 +71,7 @@ def block(api):
                   print " "+str(user.id)+" is not in blocklist\n"
           except twitter.TwitterError, err:
             print "Exception: %s\n" % err.message
-          TOTAL += banem(IDLIST,api,BATCHCOUNT)
+          TOTAL += banem(IDLIST,api,BATCHCOUNT,TOTAL)
           IDLIST=[]
     if debug == True:
         print "read.\n"
@@ -90,7 +90,7 @@ def block(api):
     #  print ""+str(len(IDLIST))+" after sorting \n"
     #shuffle(IDSET)
 
-def banem(IDSET, api,BATCHCOUNT):
+def banem(IDSET, api,BATCHCOUNT,TOTAL):
     count = 0
 
     #DO THE BANNING!
@@ -104,7 +104,7 @@ def banem(IDSET, api,BATCHCOUNT):
           api.CreateBlock(user_id=user_id,include_entities=False,skip_status=True)
           count += 1
           addban.write(str(user_id)+"\n")
-          sys.stdout.write(' total: '+"%-20s" % str(count)+"\n")
+          sys.stdout.write(' batch: '+"%-20s " % str(count)+" total:  %-20s" % str(TOTAL)+"\n")
           
 
         except twitter.TwitterError, err:
