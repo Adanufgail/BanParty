@@ -7,17 +7,6 @@ from dateutil.parser import parse
 from collections import OrderedDict
 from shutil import copyfile
 
-def uniq(list):
-  last = object()
-  for item in list:
-    if item == last:
-      continue
-    yield item
-    last = item
-
-def sorter(l):
-  return list(uniq(sorted(l)))
-
 def cullout(DONE,TOTALCOUNT):
   COUNT=0
   with open("banids.csv.cull","a") as ids:
@@ -110,6 +99,7 @@ def cull():
               TOTALDUPE += DIFF
               sys.stdout.write(" LOADED "+str(COUNTA)+" LINES FROM alreadybanids.csv. REMOVED "+str(DIFF)+" DUPLICATES ("+str(TOTALDUPE)+" TOTAL).")
               TOTALCOUNT += cullout(DONE,TOTALCOUNT) 
+              DONE=[]
               COUNTA=0
           ALLIDLISTSET=set(ALLIDLIST)
           ALLIDLIST=[]
@@ -119,6 +109,7 @@ def cull():
           TOTALDUPE += DIFF
           sys.stdout.write(" LOADED "+str(COUNTA)+" LINES FROM alreadybanids.csv. REMOVED "+str(DIFF)+" DUPLICATES ("+str(TOTALDUPE)+" TOTAL).")
           TOTALCOUNT += cullout(DONE,TOTALCOUNT) 
+          DONE=[]
           COUNTA=0
 
   
