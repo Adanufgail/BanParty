@@ -10,3 +10,4 @@ alreadybanned.csv
 upload.sh
 *.gz
 tempfile*
+debug.log
