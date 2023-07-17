@@ -1,3 +1,5 @@
+Update: This will no longer work after the recent API changes. Archiving
+
 # BanParty
 BanParty is a follow on project to my Unliked script. It's a series of scripts using the Python Twitter library and written in Python 2.7. The scripts are as follows:
 
